@@ -1,4 +1,10 @@
-asdf;asdf;23;
-sdfg;adfg;34;
-ghjk;rtyu;12;
-rrrr;rrrr;44;
+Kolia;Kisinau;22;098233445;Kolia@mail.ru;true;
+Lena;Kisinau;23;098233445;Lena@mail.ru;true;
+Angelina;Kisinau;15;098233445;angelina@mail.ru;false;
+Jora;Omsk;24;098233445;jora@mail.ru;false;
+Olesia;Belici;22;098233445;olesia@mail.ru;false;
+Sveta;Benderi;19;098233445;sveta@mail.ru;false;
+Artem;Orgeev;14;098233445;Kolia@mail.ru;true;
+Vika;London;25;098233445;Kolia@mail.ru;true;
+Nikolai;Alabama;23;098233445;Kolia@mail.ru;true;
+John;New York;33;098233445;Kolia@mail.ru;true;

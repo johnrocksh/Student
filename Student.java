@@ -1,8 +1,5 @@
 package student;
 
-import java.util.Scanner;//подключаем для ввода данных с консоли
-import java.io.IOException;//для очистки экрана
-
 /**
  * Класс Student это демонстрация работы с массивами строк в java класс
  * осуществляет удаление добавление редактирование и поиск студентов в массив
@@ -11,22 +8,31 @@ import java.io.IOException;//для очистки экрана
  */
 public class Student {
 
-    public String name;
-    public String city;
-    public int age;
+    public String  studentName;
+    public String  studentAddress;
+    public int     studentAge;
+    
+    public String  studentTel;
+    public String  studentEmail;
+    public Boolean studentPaidContract;
+     
+    
 
     public static int lengthStudentList = 20;
-    static byte studentCounter = 0;
+    public byte studentCounter = 0;
     Student[] StudentList = new Student[lengthStudentList];
 
     public Student() {
     }
+    
+    public Student(String name, String city, int age,String tel,String email,Boolean paid) {
 
-    public Student(String name, String city, int age) {
-
-        this.name = name;
-        this.city = city;
-        this.age = age;
+        this.studentName = name;
+        this.studentAddress = city;
+        this.studentAge = age;
+        this.studentTel =tel;
+        this.studentEmail=email;
+        this.studentPaidContract=paid;
     }
 
     //////////////////PressedKeyIsNumber //возвращает StudentNumber или -1 если это не число

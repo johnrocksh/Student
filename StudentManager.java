@@ -1,46 +1,77 @@
 package student;
 
+import java.util.Arrays;
 import java.util.Scanner;//подключаем для ввода данных с консоли
-import java.io.IOException;//для очистки экрана
 
 /**
- * Класс Student это демонстрация работы с массивами строк в java класс
- * осуществляет удаление добавление редактирование и поиск студентов в массив
- * можно добавить нового студента можно его удалить или просто просмотреть
- * список всех студентов... *
+ * Класс StudenMAnager - *
  */
 public class StudentManager {
 
     final int lengthStudentList = 20;
-    public  int studentCounter = 0;
-    Student[] StudentList = new Student[lengthStudentList];
+    public int studentCounter = 0;
+    public Student[] studentList = new Student[lengthStudentList];
 
     public StudentManager() {
+        
     }
 
-    void EditStudent() {
+//    void sortByName(){
+//    String name[]= new String[studentCounter];
+//    Student[] temp =new Student[lengthStudentList];
+//    //1 copy names from StudentList to name[] array
+//     for(int i=0;i<studentCounter;i++){
+//               name[i]=studentList[i].studentName;
+//     }
+//    //выведим на экран 
+//    for(String str:name){
+//        System.out.println(str);
+//    }
+//    //2 sort name[]
+//     Arrays.sort(name);
+//     System.out.println("sort");
+//      for(String str:name){
+//        System.out.println(str);
+//    }
+//    for(int i=0;i<studentCounter;i++){
+//      for (int j=0;j<studentCounter;j++){
+//      
+//       if(name[i].equals(studentList[j].studentName)){
+//      
+//         //еслин нашли совпадение то закидываем в новый аррэй
+//       temp[i]=studentList[j];
+//       }
+//       }
+//    }
+//    studentList=temp;
+//   }
+// 
+    
+    void editStudent() {
 
         Menu menu = new Menu();
 
         System.out.println("\n---------------Edit Student....----------------------");
         System.out.println("Now count of student list is:" + studentCounter);
-        ShowStudentList();
+        showStudentList();
         System.out.println("\nPlease enter Students index  to Edit:");
         System.out.println("Or press 'm' back to menu...");
 
         Scanner in = new Scanner(System.in);
-        char PressedKey = in.next().charAt(0);
-        int studentNumber = menu.pressedKeyIsNumber(PressedKey);
 
-        if (PressedKey == 'm') {//если ввели m то выходим в меню
-            menu.ShowMenu();
+        int studentNumber = in.nextInt();
+
+        if (studentNumber == -1) {//если ввели m то выходим в меню
+            menu.showMenu();
         }
 
         if (studentNumber != -1) {
+            studentNumber -= 1;
 
             if ((studentNumber >= 0) && (studentNumber <= studentCounter)) {
 
-                EditStudentDirectly(studentNumber);//Редактируем студента и выводим новый список
+                editStudentDirectly(studentNumber);//Редактируем студента и выводим новый список
+                System.out.println("studentNumber=" + studentNumber);
 
             } else {
                 System.out.println("Enter correct student Number from 0 to " + studentCounter + "\n Enter  'm'  to  menu...:");
@@ -54,17 +85,26 @@ public class StudentManager {
 
     }
 
-    void EditStudentDirectly(int studentNumber) {
+    void editStudentDirectly(int studentNumber) {
         String newName;
         String newCity;
         String newAge;
+        String newTel;
+        String newEmail;
+        String newPaid;
+
         String defiz = "-";
 
         Scanner scName = new Scanner(System.in);
         Scanner scCity = new Scanner(System.in);
         Scanner scAge = new Scanner(System.in);
+        Scanner scTel = new Scanner(System.in);
+        Scanner scEmail = new Scanner(System.in);
+        Scanner scPaid = new Scanner(System.in);
 
-        System.out.println("\nname:" + StudentList[studentNumber].name + " \nCity: " + StudentList[studentNumber].city + "\nAge:" + StudentList[studentNumber].age);
+        System.out.println("\nname:" + studentList[studentNumber].studentName + " \nCity: " + studentList[studentNumber].studentAddress
+                + "\nAge:" + studentList[studentNumber].studentAge + "\n Tel:" + studentList[studentNumber].studentTel
+                + "\n Email:" + studentList[studentNumber].studentEmail + "\nPaid:" + studentList[studentNumber].studentPaidContract);
 
         System.out.println("Enter NEW NAME or '-' to skip:");
         newName = scName.nextLine();
@@ -75,62 +115,73 @@ public class StudentManager {
         System.out.println("Enter NEW AGE or '-' to skip:");
         newAge = scAge.nextLine();
 
+        System.out.println("Enter NEW TEL or '-' to skip");
+        newTel = scTel.nextLine();
+
+        System.out.println("Enter NEW EMAIL or '-' to skip");
+        newEmail = scEmail.nextLine();
+
+        System.out.println("Enter TRUE/ELSE student paid Contract:");
+        newPaid = scPaid.nextLine();
+
         if (!newName.equals("-")) {
 
-            StudentList[studentNumber].name = newName;
+            studentList[studentNumber].studentName = newName;
         } else {
             System.out.println("newName=='-'");
 
         }
 
         if (!newCity.equals("-")) {
-            StudentList[studentNumber].city = newCity;
+            studentList[studentNumber].studentAddress = newCity;
         }
 
         if (!newAge.equals("-")) {
             try {
 
-                StudentList[studentNumber].age = Integer.parseInt(newAge);
-            } catch (Exception e) {
+                studentList[studentNumber].studentAge = Integer.parseInt(newAge);
+            } catch (NumberFormatException e) {
                 System.out.println("Error! Enter correct digit StudentAge!");
 
             }
         }
 
-        ShowStudentList();
+        if (!newTel.equals("-")) {
+            studentList[studentNumber].studentTel = newTel;
+        }
+        if (!newEmail.equals("-")) {
+            studentList[studentNumber].studentEmail = newEmail;
+        }
+        if (!newPaid.equals("-")) {
+            studentList[studentNumber].studentPaidContract = Boolean.parseBoolean(newPaid);
+        }
+
+        showStudentList();
 
     }
 
     /////////////////delete directly
-    void DeleteStudentDirectly(int deletedStudentNumber) {
+    void deleteStudentDirectly(int deletedStudentNumber) {
         Student[] newStudentList = new Student[lengthStudentList];//выделяем память для массива в котором будем сохронять новый список студентов
 
-        System.out.println("Executed DeleteStudentDirectly");
-        System.out.println("deletedStudentNumber:" + deletedStudentNumber);
-
         //создали новый массив 
-        System.out.println("Creation  newStudentList... ");
         System.out.println("---------------------------");
         for (int i = 0; i < lengthStudentList; i++) {
-            newStudentList[i] = new Student("_", "_", 0);
+            newStudentList[i] = new Student("_", "_", 0, "_", "_", false);
             //System.out.println("newStudentList["+i+"].name="+newStudentList[i].name+"  newStudentList["+i+"].city="+newStudentList[i].city+"  newStudentList["+i+"].age="+newStudentList[i].age);
         }
         System.out.println("---------------------------");
 
         for (int i = 0, j = 0; i < studentCounter; i++) {
             if (i == deletedStudentNumber) {
-                continue;
             } else {
-                newStudentList[j] = StudentList[i];
+                newStudentList[j] = studentList[i];
                 j++;
             }
         }
 
-        System.out.println("");
-        System.out.println("---------------------------");
-
         studentCounter--;
-        StudentList = newStudentList;
+        studentList = newStudentList;
 
     }// end deleteStudentDirectly
 
@@ -139,63 +190,65 @@ public class StudentManager {
 	вводим символ с клавиатуры и проверяем его если это чилос в нужном диапозоне 
 	если да то удаляем студента если нет то идем покругу... 
      */
-    public void DeleteStudent() {
+    public void deleteStudent() {
         Menu menu = new Menu();
         int studentNumber;
         Scanner scanStudentNumber = new Scanner(System.in);
 
         System.out.println(" ---------------- Delete  Student ----------------- ");
-        ShowStudentList();
+        showStudentList();
 
         //---------------- проверяем если было введено число и если оно в правильном диапозоне
         while (true) {
             System.out.print("\n Please select the student number you want to delete....:");
-            System.out.println("\n Or press 'm' back to menu...");
+            System.out.println("\n Or press '-1' back to menu...");
             Scanner in = new Scanner(System.in);//cчитываем пункт меню в char проверяем если это число и если оно меньше длины нашего массмва
-            char PressedKey = in.next().charAt(0);
-            studentNumber = menu.pressedKeyIsNumber(PressedKey);
 
-            if (PressedKey == 'm') {//если ввели m то выходим в меню
-                menu.ShowMenu();
+            studentNumber = in.nextInt();
+
+            if (studentNumber == -1) {//если ввели m то выходим в меню
+                menu.showMenu();
             }
 
             if (studentNumber != -1) {
-
+                studentNumber -= 1;
                 if ((studentNumber >= 0) && (studentNumber <= studentCounter)) {
 
-                    DeleteStudentDirectly(studentNumber);//удаляем студента и выводим новый список
+                    deleteStudentDirectly(studentNumber);//удаляем студента и выводим новый список
 
-                    for (int i = 0; i < studentCounter; i++) {
-                        System.out.println(i + ":" + StudentList[i].name + "|" + StudentList[i].city + "|" + StudentList[i].age + "|");
-
-                    }
+                    showStudentList();
                 } else {
                     System.out.println("Enter correct student Number from 0 to" + studentCounter + " or 'm' for exit too main menu...:");
-                    continue;
                 }
             } else {
                 //если  PressedKey =-1 значит это не число и нужно попробовать еще раз или выйти в меню
                 System.out.println("Error! You entered symbol but not digit. Please enter integer from 0 to " + studentCounter + " or 'm' to exit to main menu...:");
-                continue;
             }
 
         }
     }
 
     //////////////// 
-    public void AddNewStudent() {
+    public void addNewStudent() {
 
         Scanner scanName = new Scanner(System.in);
         Scanner scanCyti = new Scanner(System.in);
         Scanner scanAge = new Scanner(System.in);
+        Scanner scanTel = new Scanner(System.in);
+        Scanner scanEmail = new Scanner(System.in);
+        Scanner scanPaidContract = new Scanner(System.in);
+
         int age;
         String name;
         String city;
+        String tel;
+        String email;
+        Boolean paid;
 
         System.out.println(" ---------------- Add new Student ----------------- ");
         System.out.println("Now count of student list is:" + studentCounter);
 
-        if (studentCounter < StudentList.length) {//если мы не достигли предела нашего списка то добавляем нового студента
+        if (studentCounter < studentList.length) {//если мы не достигли предела нашего списка то добавляем нового студента
 
             System.out.print("Enter  student name:");
             name = scanName.next();
@@ -212,7 +265,16 @@ public class StudentManager {
                 return;
             }
 
-            StudentList[studentCounter] = new Student(name, city, age);
+            System.out.print("Enter tel:");
+            tel = scanTel.next();
+
+            System.out.print("Enter email:");
+            email = scanEmail.next();
+
+            System.out.println("Enter true(false) if student paid(or not) contract:");
+            paid = scanPaidContract.nextBoolean();
+
+            studentList[studentCounter] = new Student(name, city, age, tel, email, paid);
             System.out.println("# Student was added successfully!");
 
             studentCounter++;//увеличиваем счетчик
@@ -223,18 +285,26 @@ public class StudentManager {
     }
 
     ////////////// Show StudentList
-    public void ShowStudentList() {
+    public void showStudentList() {
 
-        System.out.println("------------Begin of StudentList---------------");
-
+        System.out.println("------------------------------------BEGIN STUDENT LIST-----------------------------------------------");
+        System.out.println();
+        // System.out.println("ID            "+"NAME          "+"ADDRESS       "+"AGE           ");
+        String name = "NAME", adress = "ADRESS", age = "AGE", id = "ID", tel = "TEL",
+                email = "EMAIL", paid = "PAID CONTRACT";
+        System.out.printf("%3s | %-15s | %-10s | %-10s | %-10s | %-20s | %-5s |\n\n",
+                id, name, adress, age, tel, email, paid);
+      //  System.out.println("studentList.length"+studentList.);
         for (int i = 0; i < studentCounter; i++) {
-            System.out.println(i + ":" + StudentList[i].name + "|" + StudentList[i].city + "|" + StudentList[i].age + "|");
-
+            // System.out.println(i+1+ "              " + StudentList[i].studentName +"              "+ StudentList[i].studentAddress +"              "+ StudentList[i].studentAge);
+            System.out.printf("%3d | %-15s | %-10s | %-10d | %-10s | %-20s | %-13s |\n", i + 1, studentList[i].studentName,
+                    studentList[i].studentAddress, studentList[i].studentAge, studentList[i].studentTel,
+                    studentList[i].studentEmail, studentList[i].studentPaidContract);
         }
-        System.out.println("------------ End of StudentList---------------");
+        System.out.println("");
+        System.out.println("------------------------------------END STUDENT LIST---------------------------------------------");
 
     }
 
 ////////////////////
-   
 }
